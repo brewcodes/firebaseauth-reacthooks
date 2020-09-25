@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Typography, Paper, Button, FormControl, Input, InputLabel } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
-
+import { Link, withRouter } from 'react-router-dom'
+import firebase from './firebase'
 
 const styles = theme => ({
   main: {
@@ -34,6 +35,18 @@ const styles = theme => ({
 const Login = props => {
   const { classes } = props
 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onLogin = async () => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+      props.history.push('/dashboard')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -43,11 +56,11 @@ const Login = props => {
         <form className={classes.form} onSubmit={e => e.preventDefault() && false}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="off" />
+            <Input id="email" name="email" autoComplete="off" autoFocus value={email} onChange={e => setEmail(e.target.value)} />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="off" />
+            <Input name="password" type="password" id="password" autoComplete="off" value={password} onChange={e => setPassword(e.target.value)} />
           </FormControl>
           <Button
             type="submit"

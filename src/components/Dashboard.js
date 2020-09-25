@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography, Paper, Button } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { Link, withRouter } from 'react-router-dom'
+import firebase from './firebase'
 
 const styles = theme => ({
   main: {
@@ -34,11 +35,16 @@ const styles = theme => ({
 const Dashboard = props => {
   const { classes } = props
 
+  const onSignout = async () => {
+    await firebase.auth().signOut()
+    props.history.push('/')
+  }
+
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
         <Typography component="h1" variant="h5">
-          {`Welcome User`}
+          {`Welcome ${firebase.auth().currentUser.displayName}`}
         </Typography>
         <Button
           type="submit"
@@ -47,7 +53,7 @@ const Dashboard = props => {
           color="primary"
           component={Link}
           className={classes.submit}
-        // onClick={onSignout}
+          onClick={onSignout}
         >
           Signout
         </Button>
