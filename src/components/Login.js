@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography, Paper, Button, FormControl, Input, InputLabel } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
+import { Link, withRouter } from 'react-router-dom'
 
 
 const styles = theme => ({
@@ -54,7 +55,7 @@ const Login = props => {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={onLogin}
+            // onClick={onLogin}
             className={classes.submit}>
             Sign in
           			</Button>
